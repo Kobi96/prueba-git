@@ -21,71 +21,103 @@ IMPORTANTE
       - 'React.useEffect'
 */
 
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import * as actions from '../../redux/actions/index';
-import {validation} from '../../validation'
+import React from "react";
+import { useDispatch } from "react-redux";
+import * as actions from "../../redux/actions/index";
+import { validation } from "../../validation";
 
 const CreateFutbolista = () => {
+  const [futbolista, setFutbolista] = React.useState({
+    name: "",
+    pais: "",
+    posición: "",
+    numeroCamiseta: 0,
+    imagen: "",
+    nacimiento: "",
+    descripción: "",
+  });
 
-      const [ futbolista, setFutbolista ] = React.useState({
-            name: "",
-            pais: "",
-            posición: "",
-            numeroCamiseta: 0,
-            imagen: "",
-            nacimiento: "",
-            descripción: "",
+  const dispatch = useDispatch();
+
+  const createFutbolista = (e) => {
+    e.preventDefault();
+    if (Object.keys(errors).length === 0)
+      dispatch(actions.createFutbolista(futbolista));
+  };
+
+  const [errors, setErrors] = React.useState({});
+
+  const handleChange = (e) => {
+    setFutbolista({ ...futbolista, [e.target.name]: e.target.value });
+    setErrors(
+      validation({
+        ...futbolista,
+        [e.target.name]: e.target.value,
       })
+    );
+  };
 
-      const dispatch = useDispatch();
+  return (
+    <form onSubmit={createFutbolista}>
+      <label>Name: </label>
+      <input
+        type="text"
+        name="name"
+        onChange={handleChange}
+        value={futbolista.name}
+      ></input>
+      {errors.name && <p>{errors.name}</p>}
 
-      const createFutbolista = (e)=>{
-            e.preventDefault()
-            if(!errors) dispatch(actions.createFutbolista(futbolista))
-      }
+      <label>Pais: </label>
+      <input
+        type="text"
+        name="pais"
+        onChange={handleChange}
+        value={futbolista.pais}
+      ></input>
+      {errors.pais && <p>{errors.pais}</p>}
+      <label>Posición: </label>
 
-      const [ errors, setErrors ] = React.useState({})
+      <input
+        type="text"
+        name="posición"
+        onChange={handleChange}
+        value={futbolista.posición}
+      ></input>
+      <label>Descripción: </label>
+      <textarea
+        name="descripción"
+        onChange={handleChange}
+        value={futbolista.descripción}
+      ></textarea>
 
-      const handleChange = (e) => {
-            setFutbolista({...futbolista, [e.target.name]: e.target.value})
-            setErrors(
-                  validation(
-                        {
-                              ...futbolista,
-                              [e.target.name]: e.target.value,
-                        }
-                  )
-            )
-      }
+      <label>Numero Camiseta: </label>
+      <input
+        type="number"
+        name="numeroCamiseta"
+        onChange={handleChange}
+        value={futbolista.numeroCamiseta}
+      ></input>
+      {errors.numeroCamiseta ? <p>{errors.numeroCamiseta}</p> : <></>}
 
+      <label>Imagen: </label>
+      <input
+        type="text"
+        name="imagen"
+        onChange={handleChange}
+        value={futbolista.imagen}
+      ></input>
 
-      return <form onSubmit={createFutbolista}>
-                  <label>Name: </label>
-                  <input type='text' name='name' onChange={handleChange} value={futbolista.name}></input>
-                  {errors.name && <p>{errors.name}</p>}
-                  
-                  <label>Pais: </label>
-                  <input type='text' name='pais' onChange={handleChange} value={futbolista.pais}></input>
-                  {errors.pais && <p>{errors.pais}</p>}
-                  <label>Posición: </label>
-                  
-                  <input type='text' name='posición' onChange={handleChange} value={futbolista.posición}></input>
-                  <label>Descripción: </label>
-                  <textarea name='descripción' onChange={handleChange} value={futbolista.descripción}></textarea>
-                  
-                  <label>Numero Camiseta: </label>
-                  <input type='number' name='numeroCamiseta' onChange={handleChange} value={futbolista.numeroCamiseta}></input>
-                  {errors.numeroCamiseta ? <p>{errors.numeroCamiseta}</p> : <></>}
-                  
-                  <label>Imagen: </label>
-                  <input type='text' name='imagen' onChange={handleChange} value={futbolista.imagen}></input>
-                  
-                  <label>Nacimiento: </label>
-                  <input type='text' name='nacimiento' onChange={handleChange} value={futbolista.nacimiento}></input>
-                  <button type='submit'>Crear Jugador</button>
-            </form>;
-      
+      <label>Nacimiento: </label>
+      <input
+        type="text"
+        name="nacimiento"
+        onChange={handleChange}
+        value={futbolista.nacimiento}
+      ></input>
+      <button type="submit">Crear Jugador</button>
+    </form>
+  );
 };
 /*
 {errors.name ? <p>{errors.name}</p> : <></>}
