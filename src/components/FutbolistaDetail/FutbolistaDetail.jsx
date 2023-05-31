@@ -25,7 +25,6 @@ import { useEffect } from "react";
 
 
 const FutbolistaDetail = (props) => {
-
       const dispatch = useDispatch();
       const futbolistaDetail = useSelector((state)=> state.futbolistaDetail);
       const {id} = useParams();
